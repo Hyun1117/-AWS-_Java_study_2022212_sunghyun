@@ -56,8 +56,9 @@ public class J12_UserService {
 		System.out.println();
 	}
 	
-	private void showUpdateMenu() {
+	private void showUpdateMenu(J12_User user) {
 		System.out.println("========<< 수정메뉴 >>========");
+		System.out.println("사용자이름: " + user.getUsername());
 		System.out.println("1. 비밀번호 변경 ");
 		System.out.println("2. 이름 변경");
 		System.out.println("3. 이메일 변경");
@@ -95,34 +96,8 @@ public class J12_UserService {
 		userRepositoty.saveUser(user);
 	}
 	
-	private void UsernameSearch() {
-		
-		J12_User user = new J12_User();
-		System.out.println("=====<회원 조회(사용자 이름)>=====");
-		System.out.print("사용자 이름 입력: ");
-		user.setName(scanner.nextLine());
-		user = userRepositoty.findUserByUsername(user.getName());
-		System.out.println(user.toString());
-	}
-	private void UserUpdate() {
-		J12_User user = new J12_User();
-		boolean loopFlag = true;
-		char select = '\0';
-		while(loopFlag) {
-			System.out.println("수정할 사용자 이름을 입력하세요.");
-			user.setName(scanner.nextLine());
-			user = userRepositoty.findUserByUsername(user.getName());
-			if(user == null) {
-				System.out.println("해당 사용자는 존재하지 않는 사용자 이름입니다.");
-				break;
-			}
-			showUpdateMenu();
-			select = inputSelect("수정");
-			loopFlag = UpdateMenu(select);
-			
-		}
-	}
 
+	
 	
 	private boolean mainMenu(char select) {
 		boolean flag = true;
@@ -137,9 +112,11 @@ public class J12_UserService {
 				registerUser();
 				
 			}else if(select == '3') {
-				UsernameSearch();
+				//UsernameSearch();
+				showUser();
 			}else if(select == '4') {
-				UserUpdate();
+				//UserUpdate();
+				UpdateUser();
 			}else {
 				System.out.println(getSelectErrorMessage());
 				
@@ -148,56 +125,6 @@ public class J12_UserService {
 		System.out.println();
 		
 		return flag;
-	}
-	private boolean UpdateMenu(char select) {
-		boolean flag = true;
-		
-		if(isUpdateExit(select)) {
-			flag = false;
-		}else {
-			if(select == '1') {
-				UpdateUserPassword();
-				
-			}else if(select == '2') {
-				
-				
-			}else if(select == '3') {
-				
-			}else {
-				System.out.println(getSelectErrorMessage());
-				
-			}
-		}
-		System.out.println();
-		
-		return flag;
-	}
-	
-	private void UpdateUserPassword() {
-		J12_User user = new J12_User();
-		String password;
-		System.out.println("=======<<비밀번호 변경>>=======");
-		System.out.println("기존 비밀번호을 입력하세요 : ");
-		user.setPassword(scanner.nextLine());
-		user = userRepositoty.findUserByUsername(user.getPassword());
-		if(user == null) {
-			System.out.println("비밀번호가 일치하지 않습니다.");
-			return;
-		}else {
-			System.out.println("새로운 비밀번호을 입력하세요 : ");
-			user.setPassword(scanner.nextLine());
-			System.out.println("새로운 비밀번호을 확인하세요 : ");
-			password = scanner.nextLine();
-			if(user.getPassword().equals(password)) {
-				System.out.println("비밀번호 변경 완료!!");
-				userRepositoty.saveUser(user);
-			}else {
-				System.out.println("비밀번호가 일치하지 않습니다.");
-				return;
-			}
-			
-		}
-		
 	}
 	
 	private boolean isExit(char select) {
@@ -211,5 +138,165 @@ public class J12_UserService {
 	private String getSelectErrorMessage() {
 		return "###<< 잘못된 입력입니다. 다시 입력하세요. >>###";
 	}
+	
+	private boolean UpdateMenu(J12_User user, char select) {
+		boolean flag = true;
+		
+		if(isUpdateExit(select)) {
+			flag = false;
+		}else {
+			if(select == '1') {
+				//UpdateUserPassword();
+				updatePassword(user);
+			}else if(select == '2') {
+				//이름 변경
+			}else if(select == '3') {
+				//이메일 변경
+			}else {
+				System.out.println(getSelectErrorMessage());
+				
+			}
+		}
+		System.out.println();
+		
+		return flag;
+	}
+	
+
+	
+	
+	private void showUser() {
+		J12_User user = null;
+		System.out.println("=======<회원 조회>======");
+		user = verifyUsername();
+		
+		if(user == null) {
+			System.out.println("존재하지 않는 사용자이름입니다.");
+			return;
+		}
+		System.out.println(user.toString());
+		System.out.println("========================");
+	}
+	
+	
+	private J12_User verifyUsername() {
+		String username = null;
+		System.out.println("사용자 이름 : ");
+		username = scanner.nextLine();
+		return userRepositoty.findUserByUsername(username);
+	}
+	
+	private void UpdateUser() {
+		J12_User user = verifyUsername();
+		if(user == null) {
+			System.out.println("존재하지 않는 사용자 이름입니다.");
+			return;
+		}
+		boolean loopFlag = true;
+		char select = '\0';
+		
+		while(loopFlag) {
+			showUpdateMenu(user);
+			select = inputSelect("수정");
+			loopFlag = UpdateMenu(user, select);
+		}
+	}
+	private void updatePassword(J12_User user) {
+		String oldpassword = null;
+		String newpassword = null;
+		String confirmPassword = null;
+		
+		System.out.println("=====<< 비밀번호 변경 >>=====");
+		
+		System.out.println("기존 비밀번호 입력");
+		oldpassword = scanner.nextLine();
+		
+		if(!comparePassword(user.getPassword(), newpassword)) {
+			System.out.println("비밀번호가 일치하지 않습니다.");
+			return;
+		}
+		
+		System.out.print("새로운 비밀번호 입력: ");
+		newpassword = scanner.nextLine();
+		System.out.print("새로운 비밀번호 확인: ");
+		confirmPassword = scanner.nextLine();
+		
+		if(!comparePassword(newpassword, confirmPassword)) {
+			System.out.println("새로운 비밀번호가 일치하지 않습니다.");
+			return;
+		}
+		user.setPassword(newpassword);
+		System.out.println("비밀번호 변경 완료");
+	}
+	
+	private boolean comparePassword(String prePassword, String nextPassword) {
+		return prePassword.equals(nextPassword);
+	}
+
+	
+	
+
 }
 
+//내코드
+//private void UsernameSearch() {
+//	
+//	J12_User user = null;
+//	String username = null;
+//	System.out.println("=====<회원 조회(사용자 이름)>=====");
+//	System.out.print("사용자 이름 입력: ");
+//	user.setName(scanner.nextLine());
+//	user = userRepositoty.findUserByUsername(user.getName());
+//	System.out.println(user.toString());
+//}
+//private void UserUpdate() {
+//	
+//	J12_User user = null;
+//	boolean loopFlag = true;
+//	char select = '\0';
+//	
+//	System.out.println("수정할 사용자 이름을 입력하세요.");
+//	
+//	user.setUsername(scanner.nextLine());
+//	
+//	user = userRepositoty.findUserByUsername(user.getName());
+//	
+//	if(user == null) {
+//		System.out.println("해당 사용자는 존재하지 않는 사용자 이름입니다.");
+//		return;
+//	}
+//	while(loopFlag) {
+//		showUpdateMenu();
+//		select = inputSelect("수정");
+//		loopFlag = UpdateMenu(user, select);
+//		
+//	}
+//}
+
+
+//private void UpdateUserPassword(J12_User user) {
+//String password;
+//System.out.println("=======<<비밀번호 변경>>=======");
+//System.out.println("기존 비밀번호을 입력하세요 : ");
+//user.setPassword(scanner.nextLine());
+//user = userRepositoty.findUserByUsername(user.getPassword());
+//if(user == null) {
+//	System.out.println("비밀번호가 일치하지 않습니다.");
+//	return;
+//}else {
+//	System.out.println("새로운 비밀번호을 입력하세요 : ");
+//	user.setPassword(scanner.nextLine());
+//	System.out.println("새로운 비밀번호을 확인하세요 : ");
+//	password = scanner.nextLine();
+//	if(user.getPassword().equals(password)) {
+//		System.out.println("비밀번호 변경 완료!!");
+//		userRepositoty.saveUser(user);
+//		return;
+//	}else {
+//		System.out.println("비밀번호가 일치하지 않습니다.");
+//		return;
+//	}
+//	
+//}
+//
+//}
