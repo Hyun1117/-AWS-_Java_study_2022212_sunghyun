@@ -17,7 +17,6 @@ public class J09_StudentMain {
 //		System.out.println(student1);
 //		System.out.println(student2);
 		
-		
 		J09_Student s1 = new J09_Student();
 		J09_Student s2 = new J09_Student();
 		

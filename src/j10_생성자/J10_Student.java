@@ -19,7 +19,7 @@ public class J10_Student {
 	 public String name;
 	 public int age;
 	
-	J10_Student(){
+	J10_Student(){ //NO argument constructor
 		System.out.println("기본 생성자 호출");
 	}
 	
@@ -28,7 +28,7 @@ public class J10_Student {
 		System.out.println("학생의 나이 : " + age);
 	}
 	
-	J10_Student(String name){
+	J10_Student(String name){//all argument constructor
 		this.name = name;
 		System.out.println("학생의 이름 : " + name);
 	}
