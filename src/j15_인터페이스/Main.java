@@ -5,10 +5,20 @@ public class Main {
 	public static void main(String[] args) {
 		Equipment[] equipments = new Equipment[2];
 
-		equipments[0] = new GeneralCalculator();
-		equipments[1] = new SmartPhone();
+		equipments[0] = new GeneralCalculator(); //eq랑 gen 같이 생성
+		equipments[1] = new SmartPhone(); //
 
-		Calculator calculator = new Computer();
+		Calculator[] calculators = new Calculator[2];
+		
+		calculators[0] = new GeneralCalculator();
+		calculators[1] = new SmartPhone();
+		
+		System.out.println("모든 장비 전원 켜기");
+		for (Calculator c : calculators) {
+			Equipment eq = (Equipment) c;
+			eq.powerOn();
+		}//반대로 가능
+		System.out.println();
 
 		System.out.println("모든 장비 전원 켜기");
 		for (Equipment eq : equipments) {
