@@ -29,7 +29,7 @@ public class Main {
 		System.out.println("모든 장비에서 10과 20을 더하기");
 
 		for (Equipment eq : equipments) {
-			Calculator c = (Calculator) eq;
+			Calculator c = (Calculator) eq;//다운캐스팅을 한후 업캐스팅을 한다.
 			double result = c.plus(10, 20);
 			System.out.println("결과 : " + result);
 		}

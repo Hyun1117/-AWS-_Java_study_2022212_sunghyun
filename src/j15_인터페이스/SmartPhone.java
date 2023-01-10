@@ -34,7 +34,7 @@ public class SmartPhone extends Equipment implements Calculator{
 		if (x == 0 || y == 0) {
 			return ERROR;
 		}
-
+ 
 		return x / y;
 	}
 
