@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Controller {
 	
-	private View view;
+	private final View view;
 	private Scanner scanner;
 	
 	//DI

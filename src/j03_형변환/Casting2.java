@@ -11,9 +11,3 @@ public class Casting2 {
 		System.out.println(char_b);
 	}
 }
-
-
-
-
-
-

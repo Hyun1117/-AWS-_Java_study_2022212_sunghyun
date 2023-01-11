@@ -8,6 +8,7 @@ public class Operation2 {
 		
 		System.out.println(num++);
 		System.out.println(num++);
+		System.out.println(++num);
 		System.out.println(num);
 	}
 }

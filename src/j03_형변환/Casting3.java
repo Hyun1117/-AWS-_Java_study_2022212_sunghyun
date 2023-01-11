@@ -14,11 +14,3 @@ public class Casting3 {
 		
 	}
 }
-
-
-
-
-
-
-
-
