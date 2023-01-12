@@ -10,6 +10,7 @@ public class Variable1 {
 		
 		
 		System.out.println(num + 1);
+		System.out.println(num2 + 2);
 		
 
 	}

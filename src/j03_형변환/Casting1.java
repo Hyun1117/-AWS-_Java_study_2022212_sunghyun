@@ -9,7 +9,7 @@ public class Casting1 {
 		System.out.println((double) a);
 		System.out.println((char) 97.0);
 		System.out.println((byte) 300);
-		
+		System.out.println(num1);
 
 	}
 
