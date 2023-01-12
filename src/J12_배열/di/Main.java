@@ -11,8 +11,8 @@ public class Main {
 		
 				
 		ta.testA1();
+		
 		ta.testA2();
-		tb.testB1();
 		
 		
 	}

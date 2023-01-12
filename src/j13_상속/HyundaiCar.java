@@ -4,6 +4,4 @@ public class HyundaiCar extends Car{
 	
 	private boolean preminum;
 
-		
-	
 }

@@ -12,12 +12,5 @@ public class ObjectToString {
 			System.out.println(student2);
 			System.out.println(student3);
 			System.out.println(student4);
-			
-			Object obj = new Object();
-			
-			obj.toString();
-			obj.equals(obj);
-			obj.hashCode();
-			
 	}
 }

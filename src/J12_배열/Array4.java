@@ -24,6 +24,8 @@ public class Array4 {
 		users[1] = new J12_User("bbb","1234","이종현","bbb@gmail.com");
 		users[2] = new J12_User("ccc","1234","진채희","ccc@gmail.com");
 		
+	
+		
 		for(int i = 0; i < users.length; i++) {
 			System.out.println(users[i].toString());
 		}

@@ -5,8 +5,12 @@ public class Test_A {
 	
 	private final Test_B tb;//final은 상수 그리고 초기화를 무조건 해야함. 프로그램이 돌아가는 와중에 값이 변하지 않아야 하는 값에 final을 붙여준다.
 	
-	public Test_A(Test_B tb) {//생성자에서 변수를 초기화 하거나 생성을 해야하는 것이 좋다. 하지만 Test_B는 Test_A에 의존성이 높고 
-							  //결합도도 높다.
+	
+//	public Test_A() {      Test_B는 Test_A에 의존성이 높고 결합도도 높다.
+//		tb = new Test_B();
+//	}
+	
+	public Test_A(Test_B tb) {//생성자에서 변수를 초기화 하거나 생성을 해야하는 것이 좋다. 
 		this.tb = tb;		  //final을 붙이면 필수 매개변수 생성자 
 	}
 	
