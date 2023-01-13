@@ -16,6 +16,7 @@ public class Array3 {
 		//강사 코드
 		for(int i = 0; i < nums.length; i++) {
 			while(true) {
+				
 				boolean findFlag = true;
 				
 				int randomNum = random.nextInt(nums.length) + 1;
