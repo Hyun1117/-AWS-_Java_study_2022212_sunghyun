@@ -6,7 +6,7 @@ public class Input2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Scanner scanner = new Scanner(System.in);
+		Scanner scanner = new Scanner(System.in);//scanner java에서 입력할 때 쓰는 클래스.
 		System.out.print("문자열1: ");
 		String str1 = scanner.nextLine();//이것을 제외하고 띄어쓰기 허용안함
 		System.out.print("문자열2: ");
