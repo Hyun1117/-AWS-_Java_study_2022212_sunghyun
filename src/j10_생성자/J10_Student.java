@@ -3,7 +3,7 @@ package j10_생성자;
 public class J10_Student {
 	
 	
-	//상수는 무조건 한번은 초기화가 되어야 한다.
+	//상수는 무조건 한번은 초기화가 되어야 한다.(final)
 	//required argument constructor는 필수 인수값을 가진 것만 모아놓은 생성자이다.
 	//필수 생성자는 기본생성자를 만들 수 가 없다.
 	//기본 생성자는 기본적으로 생성자가 생략 되있음

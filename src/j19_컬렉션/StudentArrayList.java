@@ -8,7 +8,7 @@ import java.util.List;
 public class StudentArrayList {
 
 	public static void updateYear(
-			List<Student> students,
+			List<Student> students,//제네릭을 꼭 해줘야함
 			String searchName,
 			int newyear) {
 		for(Student student : students) {

@@ -10,7 +10,7 @@ public class J09_Student {
 	
 	//기본생성자
 	//반환 자료형을 정의할 필요가 없음
-	//주소값을 반환함
+	//Student의 생성된 주소값을 반환함
 	J09_Student(){
 		System.out.println("생성됨!!");
 	}
