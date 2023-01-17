@@ -6,7 +6,8 @@ package j21_예외;
 public class ArrayException {
 
 	public static void main(String[] args) {
-
+		
+		
 		Integer[] nums = { 1, 2, 3, 4, 5 };
 
 		try {// if else와 비슷 try -> 예외가 일어날수도 있는 부분

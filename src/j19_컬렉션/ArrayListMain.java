@@ -22,7 +22,6 @@ public class ArrayListMain {
 
 		// 항상업 캐스팅 해서 쓰겠다.
 		List<String> strList = new ArrayList<>();
-
 		// * 값 추가
 		strList.add("java");
 		strList.add("python");
