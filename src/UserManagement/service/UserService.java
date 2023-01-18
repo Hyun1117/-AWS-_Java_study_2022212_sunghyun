@@ -33,6 +33,45 @@ public class UserService {
 		gson = new GsonBuilder().setPrettyPrinting().create();
 	}
 	
+	public Map<String,String> Login(Map<String,String> loginUser){
+		
+		Map<String,String> response = new HashMap<>();
+		
+		User user = null;
+		
+		
+		for(Entry<String, String> userEntry : loginUser.entrySet()) {
+			if(userEntry.getValue().isBlank()) {
+				response.put("error", userEntry.getKey() + "은(는) 공백 일 수 없습니다.");
+				return response;
+			}
+		}
+		
+		
+		
+		//System.out.println(loginUser);
+		//User user = userRepository.findUser(loginUser.getUsername());
+//		if(user == null){
+//			response.put("error", "사용자 정보가 일치하지 않습니다.");
+//			return response;
+//		}
+//		else if(!dublicatedEmail(loginUser.getEmail())) {
+//			response.put("error", "일치하는 email이 없습니다.");
+//			return response;
+//		}
+		
+		
+		
+//		if(!(BCrypt.checkpw(loginUser.values(), user.getPassword()))) {
+//			response.put("error", "사용자 정보가 일치하지 않습니다.");
+//			return response;
+//		}
+//		
+//		response.put("ok","로그인 성공");
+//		return response;
+		return null;
+	}
+	
 	public Map<String,String> register(String userJson) {
 		
 		//response : 응답
