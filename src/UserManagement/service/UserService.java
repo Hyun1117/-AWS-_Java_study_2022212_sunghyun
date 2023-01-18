@@ -33,12 +33,11 @@ public class UserService {
 		gson = new GsonBuilder().setPrettyPrinting().create();
 	}
 	
-	public Map<String,String> Login(Map<String,String> loginUser){
+	public Map<String,String> Login(String loginUserJson){
 		
 		Map<String,String> response = new HashMap<>();
 		
-		User user = null;
-		
+		Map<String,String> loginUser = gson.fromJson(loginUserJson, Map.class);	
 		
 		for(Entry<String, String> userEntry : loginUser.entrySet()) {
 			if(userEntry.getValue().isBlank()) {
@@ -47,29 +46,27 @@ public class UserService {
 			}
 		}
 		
+		String usernameAndEmail = loginUser.get("usernameAndEmail");
+		User user = userRepository.findUserByUsername(usernameAndEmail);
+		
+		if(user == null) {
+				user = userRepository.findUserByUserEmail(usernameAndEmail);
+			if(user == null) {
+				response.put("error", "사용자 정보가 일치하지 않습니다.");
+				return response;
+			}
+		}
 		
 		
-		//System.out.println(loginUser);
-		//User user = userRepository.findUser(loginUser.getUsername());
-//		if(user == null){
-//			response.put("error", "사용자 정보가 일치하지 않습니다.");
-//			return response;
-//		}
-//		else if(!dublicatedEmail(loginUser.getEmail())) {
-//			response.put("error", "일치하는 email이 없습니다.");
-//			return response;
-//		}
 		
 		
+		if(!BCrypt.checkpw(loginUser.get("password"),user.getPassword())) {
+			response.put("error", "사용자 정보가 일치하지 않습니다.");
+			return response;
+		}
 		
-//		if(!(BCrypt.checkpw(loginUser.values(), user.getPassword()))) {
-//			response.put("error", "사용자 정보가 일치하지 않습니다.");
-//			return response;
-//		}
-//		
-//		response.put("ok","로그인 성공");
-//		return response;
-		return null;
+		response.put("ok",user.getName() + "님 환영합니다.");
+		return response;
 	}
 	
 	public Map<String,String> register(String userJson) {

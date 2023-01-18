@@ -135,15 +135,14 @@ public class UserManagementFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("로그인 요청"); 
-				Map <String, String> loginUser = new HashMap<>();
-				loginUser.put("usernameoremail", UsernameTextField.getText());
-				loginUser.put("password", passwordField.getText());
 				
-				
+				JsonObject loginUser = new JsonObject();
+				loginUser.addProperty("usernameAndEmail", UsernameTextField.getText());
+				loginUser.addProperty("password", passwordField.getText());
 				
 				UserService userService = UserService.getInstance();
 				
-				Map<String,String> response = userService.Login(loginUser);
+				Map<String,String> response = userService.Login(loginUser.toString());
 				
 				if(response.containsKey("error")) {
 					JOptionPane.showMessageDialog(null, response.get("error"),"error",JOptionPane.ERROR_MESSAGE);
