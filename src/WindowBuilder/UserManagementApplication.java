@@ -10,6 +10,7 @@ import WindowBuilder.view.frame.MainFrame;
 //setBounds(x,y,높이,너비) -> 상속을 받아서 쓸 수 있다.
 //frame
 //panel
+//테스팅은 하나부터 끝까지 전부 해야한다.
 public class UserManagementApplication {
 
 	/**
