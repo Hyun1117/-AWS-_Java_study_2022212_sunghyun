@@ -132,6 +132,7 @@ public class UserManagementFrame extends JFrame {
 		LoginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				System.out.println("로그인 요청");
 			}
 		});
 		LoginButton.setForeground(new Color(192, 192, 192));
