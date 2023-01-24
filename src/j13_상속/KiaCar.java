@@ -11,7 +11,7 @@ public class KiaCar extends Car{
 	
 	
 	@Override//오버라이드를 하지 않는다면 부모 클래스에서 바로 들고오고,
-	//한다면 자식 클래스 메소드를 통해서 가져오는 것 -> 주소가 다르기 때문에 오버로딩과는 다른 개념이다.
+	//오버라이드를 한다면 자식 클래스 메소드를 통해서 가져오는 것 -> 주소가 다르기 때문에 오버로딩과는 다른 개념이다.
 	public int discountPrice(int percentage) {
 		
 		return super.discountPrice(percentage);
