@@ -9,8 +9,10 @@ import org.mindrot.jbcrypt.BCrypt;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import UserManagement.entity.RoleDtl;
 import UserManagement.entity.User;
 import UserManagement.repository.UserRepository;
+import UserManagement.repository.UserRepositoryArrayList;
 
 
 public class UserService {
@@ -76,6 +78,12 @@ public class UserService {
 		
 		userRepository.saveUser(user);
 		
+		RoleDtl roleDtl = RoleDtl.builder()
+				.roleId(3)
+				.userId(user.getUserId())
+				.build();
+
+		userRepository.saveRoleDtl(roleDtl);
 		response.put("ok","회원가입 성공");
 		
 		return response;
@@ -85,7 +93,7 @@ public class UserService {
 	}
 	
 	private boolean dublicatedEmail(String email) {
-		return userRepository.findUserByUserEmail(email) != null;
+		return userRepository.findUserByemail(email) != null;
 	}
 	
 	public Map<String, String> authorize(String loginUserJson){
@@ -106,7 +114,7 @@ public class UserService {
 		User user = userRepository.findUserByUsername(usernameAndEmail);
 		
 		if(user == null) {
-			user = userRepository.findUserByUserEmail(usernameAndEmail);
+			user = userRepository.findUserByUsername(usernameAndEmail);
 			if(user == null) {
 				response.put("error", "사용자 정보를 확인해주세요");
 				return response;

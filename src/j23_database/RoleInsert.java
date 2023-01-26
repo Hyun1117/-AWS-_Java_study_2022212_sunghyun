@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class RoleInsert {
 	
 	//DB를 연결하기위해 pool이라는 전역변수로 설정
-	private DBConnectionMgr pool;
+	private DBConnectionMgr pool;//제한을 두기 위해 싱글톤으로 만듬(vector가 들어가있음)
 	
 	//생성자에 DBConnectionMgr를 생성 (싱글톤)
 	public RoleInsert() {
@@ -24,8 +24,10 @@ public class RoleInsert {
 		
 		//Connection이라는 인터페이스로 DB와 연결
 		Connection con = null;
-		//PreparedStatement 작성한 쿼리문을 DB에 넣기 위해서 pstmt로 잡음
+		//PreparedStatement 작성한 쿼리문을 DB에 넣기 위해서 pstmt로 잡음 -> 모든 쿼리를 가지고 있음
 		PreparedStatement pstmt = null;
+		
+		ResultSet rs = null;
 		
 		try {
 			
@@ -47,7 +49,7 @@ public class RoleInsert {
 			int newKey = 0;
 			
 			//테이블안에 있는 자동적으로 넣은 키값을 추적하기 위해getGeneratedKeys()를 이용
-			ResultSet rs = pstmt.getGeneratedKeys();
+			rs = pstmt.getGeneratedKeys();
 			//rs에 담겨진 키값에 다음행을 선택하기 위해 next 메소드를 쓰고
 			if(rs.next()) {
 				newKey = rs.getInt(1);// 그 다음 행에 키값을 넣겠다.

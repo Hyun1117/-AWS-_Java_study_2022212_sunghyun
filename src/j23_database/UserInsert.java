@@ -30,7 +30,7 @@ public class UserInsert {
 		
 		try {
 			connection = pool.getConnection();//여기까지가 DataBase 접속
-
+			
 			sql = "insert into user_mst\r\n"
 					+ "values(0, ?, ?, ?, ?)";
 			
@@ -80,9 +80,7 @@ public class UserInsert {
 					sql += ",";
 				}
 			}
-			
-			
-			
+		
 			preparedStatement = connection.prepareStatement(sql);
 			
 			for(int i = 0; i < roles.size(); i++) {
@@ -94,7 +92,7 @@ public class UserInsert {
 			successCount = preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 		
 		
 		
