@@ -23,7 +23,9 @@ public class Json2 {
 		//toJson -> JSON형식으로 바꿔줌 JSON은 문자열이기 때문에 String으로 대입해줘야함
 		String mapJson = gson.toJson(map);
 		
+				
 		System.out.println(mapJson);
+		System.out.println(map);
 	}
 	                                                                                                                                                                                                                                                                                                                                                                                                         
 }
