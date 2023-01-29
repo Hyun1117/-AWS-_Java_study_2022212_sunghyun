@@ -4,9 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
 import UserManagement.entity.User;
-import j20_JSON.builder.UserBuilder;
 
 public class UserInsert {
 	private DBConnectionMgr pool;
@@ -47,22 +48,52 @@ public class UserInsert {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			pool.freeConnection(con,pstmt,rs);
+			pool.freeConnection(con, pstmt, rs);
 		}
 		System.out.println("쿼리성공 건수: " + successCount);
 		return successCount;
 
 	}
 
+	public int saveRoleDtl(Map<String, Object> map) {
+		int successCount = 0;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = "insert int role_dtl values";
+		String value = "(0,?,?)";
+		User user = (User) map.get("user");
+		List<Integer> roles = (List<Integer>) map.get("roles");
+
+		try {
+			con = pool.getConnection();
+			for (int i = 0; i < roles.size(); i++) {
+				sql += value;
+				if(i < roles.size() - 1) {
+					sql += ", ";
+				}
+			}
+			pstmt = con.prepareStatement(sql);
+			
+			for(int i = 0; i < roles.size(); i++) {
+				pstmt.setInt((i * 2) + 1, roles.get(i));
+				pstmt.setInt((i * 2) + 2, user.getUserId());
+			}
+			successCount = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con,pstmt);
+		}
+
+		return successCount;
+	}
+
 	public static void main(String[] args) {
 		UserInsert userInsert = new UserInsert();
-		
-		User user = User.builder()
-						.username("xxx")
-						.password("1234")
-						.name("정성현")
-						.email("xxx@naver.com")
-						.build();
+
+		User user = User.builder().username("xxx").password("1234").name("정성현").email("xxx@naver.com").build();
 		userInsert.saveUser(user);
 	}
 }
