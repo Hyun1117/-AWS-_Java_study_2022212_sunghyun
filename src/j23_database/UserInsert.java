@@ -49,7 +49,7 @@ public class UserInsert {
 		} finally {
 			pool.freeConnection(con,pstmt,rs);
 		}
-		System.out.println("쿼리성곤 건수: " + successCount);
+		System.out.println("쿼리성공 건수: " + successCount);
 		return successCount;
 
 	}
