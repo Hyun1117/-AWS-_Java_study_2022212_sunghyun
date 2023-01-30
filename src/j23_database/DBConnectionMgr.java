@@ -166,6 +166,7 @@ public class DBConnectionMgr {
 
 
     /** Marks a flag in the ConnectionObject to indicate this connection is no longer in use */
+
     //connection을 끊기 위한 메소드
     public synchronized void freeConnection(Connection c) {
         if (c == null)

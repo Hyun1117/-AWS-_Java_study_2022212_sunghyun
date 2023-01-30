@@ -8,9 +8,8 @@ import lombok.Data;
 public class RoleDtl {
 
 	private int roleDtlId;
-	private int roleId;
 	private int userId;
+	private int roleId;
 	
-	private RoleMst rolemst;
-	
+	private RoleMst roleMst;
 }

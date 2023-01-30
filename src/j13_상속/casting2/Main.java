@@ -22,14 +22,17 @@ public class Main {
 		//instanceof는 포함관계를 보고, getclass(), class는 명확하게 어떤 객체가 생성되었는지 보는 것
 
 		Transportation[] transportations = new Transportation[6];
-
+		
+		//업캐스팅
 		transportations[0] = taxi;
 		transportations[1] = subway;
 		transportations[2] = taxi;
 		transportations[3] = subway;
 		transportations[4] = taxi;
 		transportations[5] = subway;
-
+		
+		
+		//다운캐스팅
 		for (int i = 0; i < transportations.length; i++) {
 			
 			if(transportations[i] instanceof Taxi) {

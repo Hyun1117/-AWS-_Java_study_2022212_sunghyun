@@ -6,8 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +28,8 @@ public class UserManagementFrame extends JFrame {
 
 	private List<JTextField> loginFeilds;
 	private List<JTextField> registerFeilds;
+	
+	private JsonObject userJson;
 	
 	private CardLayout mainCard;
 	private JPanel MainPanel;
@@ -132,18 +134,25 @@ public class UserManagementFrame extends JFrame {
 		LoginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+
+				System.out.println("로그인 요청"); 
+
 				JsonObject loginUser = new JsonObject();
 				loginUser.addProperty("usernameAndEmail", UsernameTextField.getText());
 				loginUser.addProperty("password", passwordField.getText());
 				
 				UserService userService = UserService.getInstance();
 				
+				Map<String,String> response = userService.Login(loginUser.toString());
+
 				Map<String,String> response = userService.authorize(loginUser.toString());
+
 				
 				if(response.containsKey("error")) {
 					JOptionPane.showMessageDialog(null, response.get("error"),"error",JOptionPane.ERROR_MESSAGE);
 					return;
 				}
+
 				JOptionPane.showMessageDialog(null, response.get("ok"),"ok",JOptionPane.INFORMATION_MESSAGE);
 				
 			}
@@ -260,7 +269,7 @@ public class UserManagementFrame extends JFrame {
 		RegisterButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JsonObject userJson = new JsonObject();
+				userJson = new JsonObject();
 				userJson.addProperty("username", registerUsernameField.getText());
 				userJson.addProperty("password", registerPasswordField.getText());
 				userJson.addProperty("name", registerNameField.getText());

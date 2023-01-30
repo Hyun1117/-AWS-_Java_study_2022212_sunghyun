@@ -20,6 +20,9 @@ public class UserRepository {
 
 	
 	private static UserRepository instance;
+
+	private DBConnectionMgr pool;
+
 	
 	public static UserRepository getInstance() {
 		if(instance == null) {
@@ -64,16 +67,46 @@ public class UserRepository {
 				user.setUserId(rs.getInt(1));
 			}
 
-		} catch (Exception e) {
+
+	public int saveUser(User user) {
+		int successCount  = 0;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			con = pool.getConnection();
+			sql = "insert into user_mst\n"
+					+ "values(0,?, ?, ?, ?)";
+			pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			pstmt.setString(1, user.getUsername());
+			pstmt.setString(2, user.getPassword());
+			pstmt.setString(3, user.getName());
+			pstmt.setString(4, user.getEmail());
 			
+			successCount = pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			
+			if(rs.next()) {
+				System.out.println("현재 Id 값: " + rs.getInt(1));
+				user.setUserId(rs.getInt(1));
+			}
+
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con,pstmt,rs);
 		}
 		
+
+		
 		return successCount;
 	}
-	
+		
 	public int saveRoleDtl(RoleDtl roleDtl) {
 		int successCount = 0;
 		
@@ -91,6 +124,7 @@ public class UserRepository {
 			pstmt.setInt(2, roleDtl.getUserId());
 			
 			successCount = pstmt.executeUpdate();
+
 			
 //			ResultSet rs = null; key값을 쓸일이 없으면 필요없음
 //			rs = pstmt.getGeneratedKeys();
@@ -98,6 +132,7 @@ public class UserRepository {
 //			if(rs.next()) {
 //				roleDtl.setRoleDtlId(rs.getInt(1));
 //			}
+
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -110,7 +145,7 @@ public class UserRepository {
 	
 	public User findUserByUsername(String username) {
 		User user = null;
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -118,10 +153,10 @@ public class UserRepository {
 		
 		try {
 			con = pool.getConnection();
-			
+
 			sql = "select\r\n"
 					+ "	um.user_id,\r\n"
-					+ "	um.user_name, \r\n"
+					+ "	um.username, \r\n"
 					+ "	um.password, \r\n"
 					+ "	um.name, \r\n"
 					+ "	um.email,\r\n"
@@ -135,6 +170,7 @@ public class UserRepository {
 					+ "	 left outer join role_dtl rd on(rd.user_id = um.user_id)\r\n"
 					+ "	 left outer join role_mst rm on(rm.role_id = rd.role_id)\r\n"
 					+ "where \r\n"
+
 					+ "	um.user_name = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, username);
@@ -187,7 +223,7 @@ public class UserRepository {
 	
 	public User findUserByemail(String email) {
 		User user = null;
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -195,10 +231,10 @@ public class UserRepository {
 		
 		try {
 			con = pool.getConnection();
-			
+
 			sql = "select\r\n"
 					+ "	um.user_id,\r\n"
-					+ "	um.user_name, \r\n"
+					+ "	um.username, \r\n"
 					+ "	um.password, \r\n"
 					+ "	um.name, \r\n"
 					+ "	um.email,\r\n"
@@ -215,8 +251,7 @@ public class UserRepository {
 					+ "	um.email = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, email);
-			
-			
+
 			
 			List<RoleDtl> roleDtls = new ArrayList<>();
 			int i = 0;
@@ -260,4 +295,6 @@ public class UserRepository {
 		
 		return user;
 	}
+	
+	
 }

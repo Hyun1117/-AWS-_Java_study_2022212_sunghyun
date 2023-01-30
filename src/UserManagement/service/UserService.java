@@ -35,6 +35,42 @@ public class UserService {
 		gson = new GsonBuilder().setPrettyPrinting().create();
 	}
 	
+	public Map<String,String> Login(String loginUserJson){
+		
+		Map<String,String> response = new HashMap<>();
+		
+		Map<String,String> loginUser = gson.fromJson(loginUserJson, Map.class);	
+		
+		for(Entry<String, String> userEntry : loginUser.entrySet()) {
+			if(userEntry.getValue().isBlank()) {
+				response.put("error", userEntry.getKey() + "은(는) 공백 일 수 없습니다.");
+				return response;
+			}
+		}
+		
+		String usernameAndEmail = loginUser.get("usernameAndEmail");
+		User user = userRepository.findUserByUsername(usernameAndEmail);
+		
+		if(user == null) {
+				user = userRepository.findUserByUserEmail(usernameAndEmail);
+			if(user == null) {
+				response.put("error", "사용자 정보가 일치하지 않습니다.");
+				return response;
+			}
+		}
+		
+		
+		
+		
+		if(!BCrypt.checkpw(loginUser.get("password"),user.getPassword())) {
+			response.put("error", "사용자 정보가 일치하지 않습니다.");
+			return response;
+		}
+		
+		response.put("ok",user.getName() + "님 환영합니다.");
+		return response;
+	}
+	
 	public Map<String,String> register(String userJson) {
 		
 		//response : 응답
@@ -83,7 +119,10 @@ public class UserService {
 				.userId(user.getUserId())
 				.build();
 
+		
 		userRepository.saveRoleDtl(roleDtl);
+		
+
 		response.put("ok","회원가입 성공");
 		
 		return response;

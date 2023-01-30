@@ -20,7 +20,6 @@ public class UserSelect {
 	
 	public User findUserByUsername(String username) {
 		User user = null;
-		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -28,10 +27,10 @@ public class UserSelect {
 		
 		try {
 			con = pool.getConnection();
-			
+
 			sql = "select\r\n"
 					+ "	um.user_id,\r\n"
-					+ "	um.user_name, \r\n"
+					+ "	um.username, \r\n"
 					+ "	um.password, \r\n"
 					+ "	um.name, \r\n"
 					+ "	um.email,\r\n"
@@ -45,6 +44,7 @@ public class UserSelect {
 					+ "	 left outer join role_dtl rd on(rd.user_id = um.user_id)\r\n"
 					+ "	 left outer join role_mst rm on(rm.role_id = rd.role_id)\r\n"
 					+ "where \r\n"
+
 					+ "	um.user_name = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, username);
@@ -58,29 +58,24 @@ public class UserSelect {
 							.password(rs.getString(3))
 							.name(rs.getString(4))
 							.email(rs.getString(5))
-							.build();		
-				}
-				
-				
+							.build();
+			}
 			
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
+		}finally {
 			pool.freeConnection(con,pstmt,rs);
 		}
 		
 		return user;
 	}
-	
-	
+
 	public static void main(String[] args) {
+		UserSelect userselect = new UserSelect();
 		
-		UserSelect userSelect = new UserSelect();
-		
-		User user = userSelect.findUserByUsername("aaa");
+		User user = userselect.findByUserName("aaa");
 		
 		System.out.println(user);
-		
 	}
-	
-}
+
