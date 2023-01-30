@@ -7,7 +7,8 @@ public class Main {
 		
 		System.out.println(c1.calc(10, 20));
 		
-		
+		//인터페이스라서 생성을 할 수가 없음
+		//Calculator c3 = new Calculator();
 		
 		/////////////////////////////////////
 		
@@ -22,6 +23,13 @@ public class Main {
 				return x - y;
 			}
 		};
+		
+		//람다
+		Calculator c3 = (x,y) -> x * y;
+		
+		
 		System.out.println(c2.calc(200, 100));
+		
+		System.out.println(c3.calc(10, 20));
 	}
 }
