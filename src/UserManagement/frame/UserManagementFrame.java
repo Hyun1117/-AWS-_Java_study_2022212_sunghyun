@@ -134,8 +134,9 @@ public class UserManagementFrame extends JFrame {
 		LoginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+
 				System.out.println("로그인 요청"); 
-				
+
 				JsonObject loginUser = new JsonObject();
 				loginUser.addProperty("usernameAndEmail", UsernameTextField.getText());
 				loginUser.addProperty("password", passwordField.getText());
@@ -143,12 +144,15 @@ public class UserManagementFrame extends JFrame {
 				UserService userService = UserService.getInstance();
 				
 				Map<String,String> response = userService.Login(loginUser.toString());
+
+				Map<String,String> response = userService.authorize(loginUser.toString());
+
 				
 				if(response.containsKey("error")) {
 					JOptionPane.showMessageDialog(null, response.get("error"),"error",JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				JOptionPane.showMessageDialog(null, response.get("ok"),"ok",JOptionPane.INFORMATION_MESSAGE);
 				
 			}

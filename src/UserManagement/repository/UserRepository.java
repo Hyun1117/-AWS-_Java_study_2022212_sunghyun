@@ -12,21 +12,61 @@ import UserManagement.entity.RoleDtl;
 import UserManagement.entity.RoleMst;
 import UserManagement.entity.User;
 
+/*
+ * UserDao -> 데이터에 접근하는 용도(Data Acces Object)
+ *  */
+
 public class UserRepository {
+
 	
 	private static UserRepository instance;
+
 	private DBConnectionMgr pool;
+
 	
-	public static UserRepository getInstance () {
+	public static UserRepository getInstance() {
 		if(instance == null) {
 			instance = new UserRepository();
 		}
+		
 		return instance;
 	}
+	
+	private DBConnectionMgr pool;
 	
 	private UserRepository() {
 		pool = DBConnectionMgr.getInstance();
 	}
+	
+	public int saveUser(User user) {
+		int successCount = 0;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = null;
+		
+		try {
+			con = pool.getConnection();
+			
+			sql = "insert into user_mst\r\n"
+					+ "values(0, ?, ?, ?, ?);";
+			
+			pstmt = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			pstmt.setString(1, user.getUsername());
+			pstmt.setString(2, user.getPassword());
+			pstmt.setString(3, user.getName());
+			pstmt.setString(4, user.getEmail());
+			
+			successCount = pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			
+			if(rs.next()) {
+				user.setUserId(rs.getInt(1));
+			}
+
 
 	public int saveUser(User user) {
 		int successCount  = 0;
@@ -54,15 +94,19 @@ public class UserRepository {
 				System.out.println("현재 Id 값: " + rs.getInt(1));
 				user.setUserId(rs.getInt(1));
 			}
+
 		} catch (Exception e) {
+
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con,pstmt,rs);
 		}
 		
+
 		
 		return successCount;
 	}
+		
 	public int saveRoleDtl(RoleDtl roleDtl) {
 		int successCount = 0;
 		
@@ -81,6 +125,14 @@ public class UserRepository {
 			
 			successCount = pstmt.executeUpdate();
 
+			
+//			ResultSet rs = null; key값을 쓸일이 없으면 필요없음
+//			rs = pstmt.getGeneratedKeys();
+//			 Statement.RETURN_GENERATED_KEYS
+//			if(rs.next()) {
+//				roleDtl.setRoleDtlId(rs.getInt(1));
+//			}
+
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -93,6 +145,7 @@ public class UserRepository {
 	
 	public User findUserByUsername(String username) {
 		User user = null;
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -100,6 +153,7 @@ public class UserRepository {
 		
 		try {
 			con = pool.getConnection();
+
 			sql = "select\r\n"
 					+ "	um.user_id,\r\n"
 					+ "	um.username, \r\n"
@@ -116,49 +170,60 @@ public class UserRepository {
 					+ "	 left outer join role_dtl rd on(rd.user_id = um.user_id)\r\n"
 					+ "	 left outer join role_mst rm on(rm.role_id = rd.role_id)\r\n"
 					+ "where \r\n"
-					+ "	um.username = ?";
+
+					+ "	um.user_name = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, username);
-			rs = pstmt.executeQuery();
-			List<RoleDtl>roleDtls = new ArrayList<>();
+			
+			
+			
+			List<RoleDtl> roleDtls = new ArrayList<>();
 			int i = 0;
+			rs = pstmt.executeQuery();//select은 이 메소드를 이용
 			while(rs.next()) {
+				
 				if(i == 0) {
-					 user = User.builder()
-					        .username(rs.getString(1))
-					        .password(rs.getString(2))
-					        .name(rs.getString(3))
-					        .email(rs.getString(4))
-					        .build();
+					user = User.builder()
+							.userId(rs.getInt(1))
+							.username(rs.getString(2))
+							.password(rs.getString(3))
+							.name(rs.getString(4))
+							.email(rs.getString(5))
+							.build();		
 				}
-					RoleMst roleMst = RoleMst.builder()
-										.roldId(rs.getInt(9))
-										.roleName(rs.getString(10))
-										.build();
-					
-					RoleDtl roleDtl = RoleDtl.builder()
-										.roleDtlId(rs.getInt(6))
-										.roleId(rs.getInt(7))
-										.userId(rs.getInt(8))
-										.roleMst(roleMst)
-										.build();
-					roleDtls.add(roleDtl);
+				//
+				RoleMst roleMst = RoleMst.builder()
+						.roleId(rs.getInt(9))
+						.roleName(rs.getString(10))
+						.build();
+				
+				RoleDtl roleDtl = RoleDtl.builder()
+						.roleDtlId(rs.getInt(6))
+						.roleId(7)
+						.userId(8)
+						.rolemst(roleMst)
+						.build();
+				roleDtls.add(roleDtl);
 				
 				i++;
-			
 			}
 			if(user != null) {
 				user.setRoleDtls(roleDtls);
 			}
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con,pstmt,rs);
 		}
 		
 		return user;
 	}
 	
-	public User findUserByUserEmail(String email) {
+	public User findUserByemail(String email) {
 		User user = null;
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -166,6 +231,7 @@ public class UserRepository {
 		
 		try {
 			con = pool.getConnection();
+
 			sql = "select\r\n"
 					+ "	um.user_id,\r\n"
 					+ "	um.username, \r\n"
@@ -185,35 +251,46 @@ public class UserRepository {
 					+ "	um.email = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, email);
-			rs = pstmt.executeQuery();
-			List<RoleDtl>roleDtls = new ArrayList<>();
+
+			
+			List<RoleDtl> roleDtls = new ArrayList<>();
 			int i = 0;
+			rs = pstmt.executeQuery();//select은 이 메소드를 이용
 			while(rs.next()) {
+				
 				if(i == 0) {
-					 user = User.builder()
-					        .username(rs.getString(1))
-					        .password(rs.getString(2))
-					        .name(rs.getString(3))
-					        .email(rs.getString(4))
-					        .build();
+					user = User.builder()
+							.userId(rs.getInt(1))
+							.username(rs.getString(2))
+							.password(rs.getString(3))
+							.name(rs.getString(4))
+							.email(rs.getString(5))
+							.build();		
 				}
-					RoleMst roleMst = RoleMst.builder()
-										.roldId(rs.getInt(9))
-										.roleName(rs.getString(10))
-										.build();
-					
-					RoleDtl roleDtl = RoleDtl.builder()
-										.roleDtlId(rs.getInt(6))
-										.roleId(rs.getInt(7))
-										.userId(rs.getInt(8))
-										.roleMst(roleMst)
-										.build();
-					roleDtls.add(roleDtl);
+				
+				RoleMst roleMst = RoleMst.builder()
+						.roleId(rs.getInt(9))
+						.roleName(rs.getString(10))
+						.build();
+				
+				RoleDtl roleDtl = RoleDtl.builder()
+						.roleDtlId(rs.getInt(6))
+						.roleId(7)
+						.userId(8)
+						.rolemst(roleMst)
+						.build();
+				roleDtls.add(roleDtl);
 				
 				i++;
 			}
+			if(user != null) {
+				user.setRoleDtls(roleDtls);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con,pstmt,rs);
 		}
 		
 		return user;

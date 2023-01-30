@@ -1,6 +1,10 @@
 package j19_컬렉션;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ListStringMain {
 	
@@ -8,6 +12,44 @@ public class ListStringMain {
 		String[] strArray = new String[] {"java","python","C++"};
 		
 		String[] strArray2 = new String[strArray.length + 1];
+		
+		Map<String,String> map1 = new HashMap<>();
+		Map<String,String> map2 = new HashMap<>();
+		Map<String,String> map3 = new HashMap<>();
+		Map<String,String> map4 = new HashMap<>();
+		
+		map1.put("a", "홍길동");
+		map2.put("b", "김민수");
+		map3.put("c", "김철수");
+		map4.put("d", "김아무개");
+		
+		List<Map<String,String>> maplist = new ArrayList();
+		maplist.add(map1);
+		maplist.add(map2);
+		maplist.add(map3);
+		maplist.add(map4);
+		
+		Map<String,String> map = new HashMap<>();
+		
+		for(int i = 0; i<maplist.size(); i++) {
+			map.putAll(maplist.get(i));
+		}
+		
+		for(Map<String,String> list : maplist) {
+			System.out.print(list);
+		}
+		
+		System.out.println();
+		
+		for(Entry<String, String>en : map.entrySet()) {
+			System.out.println(en);
+			System.out.println("key: " + en.getKey());
+			System.out.println("value: " + en.getValue());
+		}
+		
+		//key value
+		
+		System.out.println();
 		
 		
 		

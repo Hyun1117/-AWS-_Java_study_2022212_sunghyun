@@ -6,6 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class RoleDtl {
+
 	private int roleDtlId;
 	private int userId;
 	private int roleId;

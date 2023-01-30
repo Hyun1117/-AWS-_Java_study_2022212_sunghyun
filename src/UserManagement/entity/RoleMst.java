@@ -5,8 +5,11 @@ import lombok.Data;
 
 @Builder
 @Data
+
+
 public class RoleMst {
-	private int roldId;
-	private String roleName;
 	
+	private int roleId;
+	private String roleName;
+
 }

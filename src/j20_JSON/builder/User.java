@@ -18,11 +18,11 @@ public class User {
 	private String email;
 	
 	
-
 //	public static UserBuilder builder() {
 //
 //		return new UserBuilder();// User class안에있는 UserBuider를 생성
 //	}
+
 //
 //	// 내부 class
 //	// class 안에 있는 class를 쓸려면 user를 생성해야 쓸 수있다. 그래서 static을 활용해 생성
@@ -34,6 +34,9 @@ public class User {
 //		private String name;
 //		private String email;
 //
+	
+
+	
 //		public UserBuilder username(String username) {
 //			this.username = username;
 //			return this;

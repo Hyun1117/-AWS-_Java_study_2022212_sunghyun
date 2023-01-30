@@ -36,11 +36,13 @@ import java.util.Vector;
  *
  * @author  Anil Hemrajani
  */
+
+//jdbc = Java DataBase connector 
 public class DBConnectionMgr {
 
     private Vector connections = new Vector(10);
     private String _driver = "com.mysql.cj.jdbc.Driver",
-    _url = "jdbc:mysql://127.0.0.1:3306/chatting",
+    _url = "jdbc:mysql://127.0.0.1:3306/chatting",//jdbc의 프로토콜을 의미함 mysql과 통신하겠다. 
     _user = "root",
     _password = "root";
     
@@ -164,6 +166,8 @@ public class DBConnectionMgr {
 
 
     /** Marks a flag in the ConnectionObject to indicate this connection is no longer in use */
+
+    //connection을 끊기 위한 메소드
     public synchronized void freeConnection(Connection c) {
         if (c == null)
             return;

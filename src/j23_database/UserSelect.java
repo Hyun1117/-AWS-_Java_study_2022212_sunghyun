@@ -3,18 +3,22 @@ package j23_database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import UserManagement.entity.RoleDtl;
+import UserManagement.entity.RoleMst;
 import UserManagement.entity.User;
 
 public class UserSelect {
+
 	private DBConnectionMgr pool;
 	
-	public UserSelect() {
+	public UserSelect () {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	
-	public User findByUserName(String username) {
+	public User findUserByUsername(String username) {
 		User user = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -23,6 +27,7 @@ public class UserSelect {
 		
 		try {
 			con = pool.getConnection();
+
 			sql = "select\r\n"
 					+ "	um.user_id,\r\n"
 					+ "	um.username, \r\n"
@@ -39,14 +44,15 @@ public class UserSelect {
 					+ "	 left outer join role_dtl rd on(rd.user_id = um.user_id)\r\n"
 					+ "	 left outer join role_mst rm on(rm.role_id = rd.role_id)\r\n"
 					+ "where \r\n"
-					+ "	um.username = ?";
+
+					+ "	um.user_name = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, username);
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();//select은 이 메소드를 이용
 			
-			if(rs.next()) {
-				user = User.builder()
+				if(rs.next()) {
+					user = User.builder()
 							.userId(rs.getInt(1))
 							.username(rs.getString(2))
 							.password(rs.getString(3))
@@ -55,14 +61,12 @@ public class UserSelect {
 							.build();
 			}
 			
-			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			pool.freeConnection(con,pstmt,rs);
 		}
-		
 		
 		return user;
 	}
@@ -74,4 +78,4 @@ public class UserSelect {
 		
 		System.out.println(user);
 	}
-}
+
