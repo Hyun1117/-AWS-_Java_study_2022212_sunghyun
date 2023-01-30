@@ -18,7 +18,10 @@ public class User {
 	private String email;
 	
 	
-
+//	public static UserBuilder builder() {
+//
+//		return new UserBuilder();// User class안에있는 UserBuider를 생성
+//	}
 
 //
 //	// 내부 class
@@ -32,10 +35,7 @@ public class User {
 //		private String email;
 //
 	
-//	public static UserBuilder builder() {
-//
-//		return new UserBuilder();// User class안에있는 UserBuider를 생성
-//	}
+
 	
 //		public UserBuilder username(String username) {
 //			this.username = username;
