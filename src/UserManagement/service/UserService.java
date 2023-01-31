@@ -12,7 +12,6 @@ import com.google.gson.GsonBuilder;
 import UserManagement.entity.RoleDtl;
 import UserManagement.entity.User;
 import UserManagement.repository.UserRepository;
-import UserManagement.repository.UserRepositoryArrayList;
 
 
 public class UserService {
