@@ -32,41 +32,12 @@ public class UserRepository {
 		return instance;
 	}
 	
-	private DBConnectionMgr pool;
 	
 	private UserRepository() {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	public int saveUser(User user) {
-		int successCount = 0;
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		String sql = null;
-		
-		try {
-			con = pool.getConnection();
-			
-			sql = "insert into user_mst\r\n"
-					+ "values(0, ?, ?, ?, ?);";
-			
-			pstmt = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
-			pstmt.setString(3, user.getName());
-			pstmt.setString(4, user.getEmail());
-			
-			successCount = pstmt.executeUpdate();
-			
-			rs = pstmt.getGeneratedKeys();
-			
-			if(rs.next()) {
-				user.setUserId(rs.getInt(1));
-			}
-
+	
 
 	public int saveUser(User user) {
 		int successCount  = 0;
@@ -201,7 +172,7 @@ public class UserRepository {
 						.roleDtlId(rs.getInt(6))
 						.roleId(7)
 						.userId(8)
-						.rolemst(roleMst)
+						.roleMst(roleMst)
 						.build();
 				roleDtls.add(roleDtl);
 				
@@ -277,7 +248,7 @@ public class UserRepository {
 						.roleDtlId(rs.getInt(6))
 						.roleId(7)
 						.userId(8)
-						.rolemst(roleMst)
+						.roleMst(roleMst)
 						.build();
 				roleDtls.add(roleDtl);
 				

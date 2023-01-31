@@ -74,8 +74,11 @@ public class UserSelect {
 	public static void main(String[] args) {
 		UserSelect userselect = new UserSelect();
 		
-		User user = userselect.findByUserName("aaa");
+		User user = userselect.findUserByUsername("aaa");
 		
 		System.out.println(user);
 	}
+	
+}
+
 

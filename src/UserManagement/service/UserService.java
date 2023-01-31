@@ -52,7 +52,7 @@ public class UserService {
 		User user = userRepository.findUserByUsername(usernameAndEmail);
 		
 		if(user == null) {
-				user = userRepository.findUserByUserEmail(usernameAndEmail);
+				user = userRepository.findUserByemail(usernameAndEmail);
 			if(user == null) {
 				response.put("error", "사용자 정보가 일치하지 않습니다.");
 				return response;

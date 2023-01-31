@@ -143,17 +143,18 @@ public class UserManagementFrame extends JFrame {
 				
 				UserService userService = UserService.getInstance();
 				
+				@SuppressWarnings("unused")
 				Map<String,String> response = userService.Login(loginUser.toString());
 
-				Map<String,String> response = userService.authorize(loginUser.toString());
+				Map<String,String> response1 = userService.authorize(loginUser.toString());
 
 				
-				if(response.containsKey("error")) {
-					JOptionPane.showMessageDialog(null, response.get("error"),"error",JOptionPane.ERROR_MESSAGE);
+				if(response1.containsKey("error")) {
+					JOptionPane.showMessageDialog(null, response1.get("error"),"error",JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
-				JOptionPane.showMessageDialog(null, response.get("ok"),"ok",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, response1.get("ok"),"ok",JOptionPane.INFORMATION_MESSAGE);
 				
 			}
 		});
