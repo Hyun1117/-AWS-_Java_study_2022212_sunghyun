@@ -34,4 +34,5 @@ from
     
 select * from role_mst;
 select * from role_dtl;
+select * from user_mst;
 	

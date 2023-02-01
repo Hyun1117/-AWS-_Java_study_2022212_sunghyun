@@ -7,7 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Lamda2 {
 
@@ -54,28 +58,67 @@ public class Lamda2 {
 		names.add("김두영");
 		names.add("장진원");
 		names.add("조병철");
-		
-		Consumer<String> g = name->System.out.println("이름: " + name + "님");
-		
+
+		Consumer<String> g = name -> System.out.println("이름: " + name + "님");
+
 		names.forEach(g);
-		
+
 		names.forEach(name -> {
 			System.out.println("이름을 출력합니다.");
 			System.out.println("이름: " + name);
 			System.out.println();
 		});
-		
-		Map<String,String> userMap = new HashMap<>();
+
+		Map<String, String> userMap = new HashMap<>();
 		userMap.put("username", "aaa");
 		userMap.put("password", "1234");
-		
-		userMap.forEach((k,v) -> {
+
+		userMap.forEach((k, v) -> {
 			System.out.println("key: " + k);
 			System.out.println("value: " + v);
 			System.out.println();
 		});
-		
 
+		// Function <T,R>
+		Function<String, Integer> h = num -> Integer.parseInt(num);
+
+		int coverStrNum1 = h.apply("10000");
+		int coverStrNum2 = h.apply("20000");
+
+		System.out.println(coverStrNum1 + coverStrNum2);
+
+		// Predicate<T>
+		// Predicate<String> p1 = str -> str.startsWith("김");
+		 Predicate<String> p2 = str -> str.startsWith("이");
+		
+		System.out.println(p2.test("정성현"));
+		Function<Predicate<String>, Boolean> function1 = predeicate -> predeicate.or(str -> str.startsWith("이"))
+				.test("김준일");
+
+		boolean rs = function1.apply(str -> str.startsWith("김"));
+		System.out.println(rs);
+
+		List<String> nameList = new ArrayList<>();
+		nameList.add("김종환1");
+		nameList.add("고종환2");
+		nameList.add("김종환3");
+		nameList.add("김종환4");
+		
+		
+		//Stream -> 일회용
+		Stream<String> stream = nameList.stream().filter(name -> name.startsWith("김"));
+		//stream.forEach(name -> System.out.println(name));
+		List<String> newList = stream.collect(Collectors.toList());
+		
+		System.out.println(newList);
+		
+		System.out.println("=====================================================");
+		
+		nameList.stream()
+			.filter(name -> name.startsWith("김"))
+			.collect(Collectors.toList())
+			.forEach(name -> System.out.println(name));
+		
 	}
 
 }
