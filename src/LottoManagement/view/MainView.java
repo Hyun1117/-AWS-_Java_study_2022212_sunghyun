@@ -1,5 +1,7 @@
 package LottoManagement.view;
 
-public class MainView {
-
+public abstract class MainView {
+	
+	
+	
 }
