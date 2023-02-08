@@ -4,8 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import com.google.gson.Gson;
+
+import UserManagement.dto.RequestDto;
+
+
 //단일 양방향
 public class SockerClient {
 	
@@ -20,7 +28,16 @@ public class SockerClient {
 			//buffer -> 데이터를 한 덩어리씩 주고받고 할 때 필요하다. 안그러면 문자열을 하나씩 다 잘라서 받아야함
 			BufferedReader reader = new BufferedReader(streamReader);
 			
-			System.out.println(reader.readLine());
+			//System.out.println(reader.readLine());
+			
+			OutputStream outputStream = socket.getOutputStream();
+			PrintWriter printWriter = new PrintWriter(outputStream,true);
+			
+			
+			Gson gson = new Gson();
+			RequestDto<String> dto = new RequestDto<String>("test","테스트데이터");
+			
+			printWriter.println(gson.toJson(dto));
 			
 		} catch (UnknownHostException e) {
 			//ip를 잡지 못했을때
