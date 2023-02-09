@@ -142,7 +142,7 @@ public class UserRepository {
 					+ "	 left outer join role_mst rm on(rm.role_id = rd.role_id)\r\n"
 					+ "where \r\n"
 
-					+ "	um.user_name = ?";
+					+ "	um.username = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, username);
 			

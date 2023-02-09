@@ -202,7 +202,7 @@ public class UserManagementFrame extends JFrame {
 		signupLink.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("회원가입 클릭함!!!");
+				//System.out.println("회원가입 클릭함!!!");
 				mainCard.show(MainPanel, "registerPanel");
 				clearFields(loginFeilds);
 			}
@@ -310,26 +310,23 @@ public class UserManagementFrame extends JFrame {
 				writer.flush();
 				try {
 					String response = reader.readLine();
+					System.out.println(response);
 					System.out.println("response");
 					ResponseDto<?> responseDto = gson.fromJson(response, ResponseDto.class);
+					if(responseDto.getCode().equals("error")) {
+						System.out.println("error1");
+						JOptionPane.showMessageDialog(null, responseDto.getBody(), responseDto.getCode(), JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					System.out.println("ok");
+					JOptionPane.showMessageDialog(null, responseDto.getBody(),responseDto.getCode(), JOptionPane.INFORMATION_MESSAGE);
+					mainCard.show(MainPanel, "loginPanel");
+					clearFields(registerFeilds);
 					System.out.println(responseDto);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
-//				UserService userService = UserService.getInstance();
-//
-//				Map<String, String> response = userService.register(userJson.toString());
-//
-//				if (response.containsKey("error")) {
-//					JOptionPane.showMessageDialog(null, response.get("error"), "error", JOptionPane.ERROR_MESSAGE);
-//					return;
-//				}
-//
-//				JOptionPane.showMessageDialog(null, response.get("ok"), "ok", JOptionPane.INFORMATION_MESSAGE);
-//				mainCard.show(MainPanel, "loginPanel");
-//				clearFields(registerFeilds);
-
+				} 
+				
 			}
 		});
 		RegisterButton.setForeground(new Color(255, 255, 255));
