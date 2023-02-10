@@ -118,7 +118,7 @@ public class ChattingClient extends JFrame {
 										userListModel.addElement(username);
 									}
 									continue;
-								}
+								} 
 								contentView.append(message + "\n");
 
 							}
@@ -138,6 +138,9 @@ public class ChattingClient extends JFrame {
 
 				} catch (IOException e1) {
 					e1.printStackTrace();
+				} finally {
+					if(socket != null) {
+					}
 				}
 			}
 		});

@@ -59,6 +59,12 @@ class ConnectedSocket extends Thread{
 				out.println("@welcome/" + username + "님이 접속하였습니다.");
 				out.println("@userList/" + userListStr);
 			}
+			
+			for(ConnectedSocket connectedSocket: socketList) {
+				outputStream = connectedSocket.getSocket().getOutputStream();
+				out = new PrintWriter(outputStream, true);
+				out.println("@close/" + username + "님이 나가셨습니다.");
+			}
 
 			while (true) {
 				String message = in.readLine();
