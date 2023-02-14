@@ -63,13 +63,19 @@ class ConnectedSocket extends Thread {
 					sendToAll(requestDto.getResource(), "ok", gson.toJson(joinRespDto));
 					break;
 				case "sendMessage":
-					
+
 					MessageReqDto messageReqDto = gson.fromJson(requestDto.getBody(), MessageReqDto.class);
-					
-					if(messageReqDto.getToUser().equalsIgnoreCase("all")) {
+
+					if (messageReqDto.getToUser().equalsIgnoreCase("all")) {
 						String message = messageReqDto.getFromUser() + "[전체]:" + messageReqDto.getMessageValue();
 						MessageRespDto messageRespDto = new MessageRespDto(message);
 						sendToAll(requestDto.getResource(), "ok", gson.toJson(messageRespDto));
+					} else {
+						String message = messageReqDto.getFromUser() + "[" + messageReqDto.getToUser() + "]"
+								+ messageReqDto.getMessageValue();
+						MessageRespDto messageRespDto = new MessageRespDto(message);
+						sendToUser(requestDto.getResource(), "ok", gson.toJson(messageRespDto),
+								messageReqDto.getToUser());
 					}
 					break;
 				}
@@ -91,8 +97,19 @@ class ConnectedSocket extends Thread {
 		}
 	}
 
-}
+	private void sendToUser(String resource, String status, String body, String toUser) throws IOException {
+		ResponseDto responseDto = new ResponseDto(resource, status, body);
+		for (ConnectedSocket connectedSocket : socketList) {
 
+			if (connectedSocket.getUsername().equals(toUser) || connectedSocket.getUsername().equals(username)) {
+				OutputStream outputStream = connectedSocket.getSocket().getOutputStream();
+				PrintWriter out = new PrintWriter(outputStream, true);
+				out.println(gson.toJson(responseDto));
+			}
+		}
+
+	}
+}
 public class ServerApplication {
 
 	public static void main(String[] args) {
@@ -121,5 +138,4 @@ public class ServerApplication {
 			System.out.println("=======<<server end!!>>========");
 		}
 	}
-
 }
