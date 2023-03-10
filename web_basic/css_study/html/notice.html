@@ -5,18 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/notice.css">
 </head>
 <body>
     <div class="container">
-        <header>
+        <header class="main-header">
             <ul class="menu-nav">
-                <li>로고</li>
+            <li>로고</li>
                 <li>스토어</li>
                 <li>Mac</li>
-                <li>ipad</li>
-                <li>iPone</li>
-                <li>Wathc</li>
+                <li>iPad</li>
+                <li>iPhone</li>
+                <li>Watch</li>
                 <li>Airpods</li>
                 <li>TV 및 홈</li>
                 <li>엔터테인먼트</li>
@@ -26,8 +27,52 @@
                 <li>장바구니</li>
             </ul>
         </header>
-        <main>
-
+        <header class="sub-header">
+            <h2 class="sub-header-title">MacBook Air</h2>
+            <ul class="sub-header-right">
+                <a href=""><li>개요</li></a>
+                <a href=""><li>macOS</li></a>
+                <a href=""><li>사양비교</li></a>
+            </ul>
+        </header>
+        <div class="advertising-container">
+            <div class="advertising-content">
+                대학 생활용 AirPods을 구할 수 있는 마지막 기회. 교육 할인가로 Mac 또는 iPad도 보다 저렴하게.◊◊ 프로모션 3월 13일 종료.◊◊◊ <a href="" class="now-shop">지금 쇼핑하기</a>
+            </div>
+        </div>
+        <main class="product-main">
+            <div class="product-main-title">
+                <h1 class="main-title-text">새 MacBook Air를 구입해볼까요?</h1>
+            </div>
+         <div class="product-select-list">
+            <button class="product-select-button ">M1 칩 모델</button>
+            <button class="product-select-button selected">M2 칩 모델</button>
+         </div>
+         <div class="product-informations">
+            <div><i class="fa-sharp fa-regular fa-comments"></i></div>
+            <div>Mac 구입과 관련해 궁금한 점이 있으신가요?</div>
+            <div><a href="" class="">Mac 스페셜리스트와 상담하세요</a></div>
+         </div>
+         <div class="product-list">
+            <div class="product-container">
+                <div class="product-image-container">
+                    <img src="../images/macbook-air1.jpg" alt="">
+                </div>
+                <div class="product-color-list">
+                    <span class="color-text">미드나이트</span>
+                    <div class="color-radio-group">
+                        <input type="radio" id="c1" name="productColor">
+                        <label for="c1"></label>
+                        <input type="radio" id="c2" name="productColor">
+                        <label for="c2"></label>
+                        <input type="radio" id="c3" name="productColor">
+                        <label for="c3"></label>
+                        <input type="radio" id="c4" name="productColor">
+                        <label for="c4"></label>
+                    </div>
+                </div>
+            </div>
+         </div>
         </main>
     </div>
 </body>
