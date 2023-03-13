@@ -16,4 +16,4 @@ let num1 = Number(prompt("첫번째 숫자"));
 let num2 = parseInt(prompt("두번째 숫자"));
 console.log(num1+num2)
 
-let season = new Array();
+// ===,!== ->자료형도 같거나 같지 않거나
