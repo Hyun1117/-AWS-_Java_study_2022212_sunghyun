@@ -18,13 +18,13 @@
 }
 
 
-input {
+input ,textarea{
     border: none;
     outline: none;
     padding: 5px;
 }
 
-input:focus{
+input:focus, textarea:focus{
     background-color: #F0E5D3;
 }
 
