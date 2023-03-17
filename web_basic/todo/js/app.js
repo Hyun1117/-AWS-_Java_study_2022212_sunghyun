@@ -1,6 +1,7 @@
 window.onload = () =>{//Only One
     AsideEvent.getInstance().addEventShowMenuButton();
     AsideEvent.getInstance().addEventMainChange();
+    InforMationService.getInstance().loadInfo();
     InforMationEvent.getInstance().addEventPhotoChangeClick();
     InforMationEvent.getInstance().addEventPhotoChange();
     InforMationEvent.getInstance().addEventAboutMeModifyClick();

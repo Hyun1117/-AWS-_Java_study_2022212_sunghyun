@@ -44,10 +44,15 @@ class InforMationEvent {
             aboutMeSaveButton.classList.add("button-hidden");
             
             const infoInputContainers = document.querySelectorAll(".info-input-container");
+            const userInfo = InforMationService.getInstance().userInfo;
+            
             infoInputContainers.forEach(infoInputContainer => {
-                console.log(infoInputContainer.querySelector(".info-input").value);
-                infoInputContainer.querySelector(".info-input").disabled = true;
+                const infoInput = infoInputContainer.querySelector(".info-input");
+                userInfo[infoInput.id] = infoInput.value;
+                infoInput.disabled = true;
             });
+           
+            localStorage.setItem("userInfo",JSON.stringify(userInfo));
         }
     }
 
@@ -66,14 +71,65 @@ class InforMationEvent {
 
     addEventIntroduceSaveClick() {
         const IntroduceSaveButton = document.querySelector(".s-introduce");
+        
         IntroduceSaveButton.onclick = () => {
             const IntroduceModifyButton = document.querySelector(".m-introduce");
             IntroduceModifyButton.classList.remove("button-hidden");
             IntroduceSaveButton.classList.add("button-hidden");
             
             const introduceInput = document.querySelector(".introduce-input");
+            const userInfo = InforMationService.getInstance().userInfo;
             introduceInput.disabled = true;
+            userInfo["introduce"] = introduceInput.value;
+            localStorage.setItem("userInfo",JSON.stringify(userInfo));
         }
+    }
+}
+
+class InforMationService{
+    static #instance = null;
+    static getInstance() {
+        if (this.#instance == null) {
+            this.#instance = new InforMationService();
+        }
+        return this.#instance;
+    }
+
+    loadInfo(){
+        this.loadInfoPhoto();
+        this.loadInfoUser();
+    }
+
+    userInfo = {};
+
+    loadInfoPhoto(){
+        const infoPhotoImg = document.querySelector(".info-photo img");
+        const infoPhoto = localStorage.getItem("infoPhoto")
+        if(localStorage.getItem("infoPhoto") == null){
+            infoPhotoImg.src ="./images/noimage.jpg";
+        }else{
+            infoPhotoImg.src = infoPhoto; 
+        }
+    }
+    loadInfoUser(){
+        this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        if(this.userInfo == null){
+            this.userInfo = {};
+            return;
+        }
+        Object.keys(this.userInfo).forEach(key =>{
+            const infoInput = document.querySelectorAll(".info-input");
+            infoInput.forEach(input => {
+                if(input.id ==key){
+                    input.value = this.userInfo[key];
+                }
+            });
+        });
+        if(typeof this.userInfo.introduce =='undefined'){
+            return;
+        }
+        const introduceInfo = document.querySelector(".introduce-input");
+        introduceInfo.value = this.userInfo.introduce;
     }
 }
 
@@ -90,6 +146,11 @@ class fileService {
         const photoFrom = document.querySelector(".photo-form");
         const formData = new FormData(photoFrom);//FromData 내장객체
         const fileValue = formData.get("file");
+        
+        if(fileValue.size == 0){
+            return;
+        }
+
         this.showPreview(fileValue);
     }
 
@@ -101,7 +162,7 @@ class fileService {
         fileReader.onload = (e) => {//event를 매개변수로 받음
             const photoImg = document.querySelector(".info-photo img");
             photoImg.src = e.target.result;//event의 결과값
-
+            localStorage.setItem("infoPhoto",photoImg.src);
         }
     }
 
