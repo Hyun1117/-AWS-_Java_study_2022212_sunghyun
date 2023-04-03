@@ -13,7 +13,7 @@ from
  where
 	um.username = "aaa";
     
-insert into user_mst values("fxfxfx","1234","jsh","hhgg0017@gmail.com");
+insert into user_mst values('0','fasdasdasdxfxfx',"1234","jsh","hhgg0asdasd017@gmail.com");
 
 select
  *
